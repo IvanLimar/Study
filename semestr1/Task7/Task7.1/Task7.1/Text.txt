@@ -1,0 +1,9 @@
+Ivan 5
+Anna 1
+Sveta 3
+Denis 4
+Boris 5
+Timofey 6
+Yurii 7
+Artem 5
+Valera 6
