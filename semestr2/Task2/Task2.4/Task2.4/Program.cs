@@ -4,11 +4,17 @@ namespace Task2._4
 {
     class Program
     {
+        /// <summary>
+        /// Определяем, является ли символ знаком операции.
+        /// </summary>
         static bool IsOrerator(char symbol)
         {
             return symbol == '+' || symbol == '-' || symbol == '*' || symbol == '/';
         }
 
+        /// <summary>
+        /// Считаем бинарную операцию
+        /// </summary>
         static int Operation(int operand1, int operand2, char action)
         {
             if (action == '+')
@@ -30,11 +36,13 @@ namespace Task2._4
             return -9999;
         }
 
-        static int Calculate(ref string postfixExpression)
+        /// <summary>
+        /// Считаем постфиксное выражение с помощью стека
+        /// </summary>
+        static int Calculate(string postfixExpression, Stack stack)
         {
             for (int i = 0; i < postfixExpression.Length; ++i)
             {
-                //If threr is a letter, it is bad!
                 if (Char.IsLetter(postfixExpression[i]))
                 {
                     Console.WriteLine("Expression is wrong!");
@@ -43,7 +51,6 @@ namespace Task2._4
             }
             Console.Write("{0} = ", postfixExpression);
             string[] values = postfixExpression.Split(' ');
-            Stack stack = new StackArray();
             for (int i = 0; i < values.Length; ++i)
             {
                 if (IsOrerator(values[i] [0]))
@@ -89,7 +96,8 @@ namespace Task2._4
         {
             Console.WriteLine("Enter postfix expression:");
             string expression = Console.ReadLine();
-            Calculate(ref expression);
+            Stack stack = new StackArray();
+            Calculate(expression, stack);
         }
     }
 }

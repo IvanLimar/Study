@@ -2,43 +2,56 @@
 
 namespace Task2._4
 {
+    /// <summary>
+    /// Класс стек, реализованный на массивах
+    /// </summary>
     public class StackArray : Stack
     {
-        private int[] array;
+        private int[] array = new int[100];
 
+        private int length = 0;
+
+        /// <summary>
+        /// Создаем стек на массивах.
+        /// </summary>
         public StackArray()
         {
-            this.array = new int[0];
+            
         }
 
-        public StackArray(int value)
-        {
-            this.array = new int[1];
-            this.array[0] = value;
-        }
-
+        /// <summary>
+        /// Проверяем, пуст ли стек.
+        /// </summary>
         public override bool IsEmpty()
         {
-            return this.array.Length == 0;
+            return length == 0;
         }
 
+        /// <summary>
+        /// Вставляем число в стек
+        /// </summary>
         public override void Push(int value)
         {
-            int index = this.array.Length;
-            Array.Resize(ref this.array, index + 1);
-            this.array[index] = value;
+            if (length == array.Length)
+            {
+                Array.Resize(ref array, 2 * array.Length);
+            }
+            array[length] = value;
+            ++length;
         }
 
+        /// <summary>
+        /// Извлекаем число из стека.
+        /// </summary>
         public override int Pop()
         {
-            if (this.IsEmpty())
+            if (IsEmpty())
             {
-                Console.WriteLine("Stack is empty!");
                 return -9999;
             }
-            int newSize = array.Length - 1;
-            int result = this.array[newSize];
-            Array.Resize(ref this.array, newSize);
+
+            --length;
+            int result = array[length];
             return result;
         }
     }

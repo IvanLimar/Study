@@ -2,51 +2,77 @@
 
 namespace Task2._2_2._3
 {
-    class HashTable
+    /// <summary>
+    /// Класс хеш-таблица
+    /// </summary>
+    public class HashTable
     {
         private int length;
 
         private List[] lists;
 
-        private int HashFunctinon(ref string element)
+        /// <summary>
+        /// Хеш-функция
+        /// </summary>
+        private int HashFunction(string element)
         {
             int result = 0;
             for (int i = 0; i < element.Length; ++i)
             {
                 int number = Convert.ToInt32(element[i]);
-                double temp = Math.Pow(number, i) % this.length;
+                double temp = Math.Pow(number, i) % length;
                 result = result + Convert.ToInt32(temp);
                 
             }
-            return result % this.length;
+            return result % length;
         }
 
+        /// <summary>
+        /// Конструктор, создающий хеш-таблицу.
+        /// </summary>
+        /// <param name="length"> length - длина хеш таблицы.</param>
         public HashTable(int length)
         {
-            this.length = length;
-            this.lists = new List[length];
+            if (length < 0)
+            {
+                this.length = 100;
+            }
+            else
+            {
+                this.length = length;
+            }
+            lists = new List[length];
             for (int i = 0; i < length; ++i)
             {
-                this.lists[i] = new List();
+                lists[i] = new List();
             }
         }
 
-        public void Add(ref string element)
+        /// <summary>
+        /// Добавление в хеш-таблицу
+        /// </summary>
+        public void Add(string element)
         {
-            int index = this.HashFunctinon(ref element);
-            this.lists[index].Add(ref element);
+            int index = HashFunction(element);
+            lists[index].Add(element);
         }
 
-        public bool IsContain(ref string element)
+        /// <summary>
+        /// Проверка на принадлежность.
+        /// </summary>
+        public bool Contains(string element)
         {
-            int index = this.HashFunctinon(ref element);
-            return this.lists[index].IsContain(ref element);
+            int index = HashFunction(element);
+            return lists[index].Contains(element);
         }
 
-        public void Delete(ref string element)
+        /// <summary>
+        /// Удаление из хеш-функции.
+        /// </summary>
+        public void Delete(string element)
         {
-            int index = this.HashFunctinon(ref element);
-            this.lists[index].Delete(ref element);
+            int index = HashFunction(element);
+            lists[index].Delete(element);
         }
     }
 }

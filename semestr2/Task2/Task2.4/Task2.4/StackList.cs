@@ -2,52 +2,75 @@
 
 namespace Task2._4
 {
+    /// <summary>
+    ///  Класс стек, реализованный на списках.
+    /// </summary>
     public class StackList : Stack
     {
+        /// <summary>
+        /// Элемент стека.
+        /// </summary>
         private class StackElement
         {
-            public int value;
-            public StackElement next;
+            private int _value;
+            public int Value
+            {
+                get
+                {
+                    return _value;
+                }
+                set
+                {
+                    _value = value;
+                }
+            }
+
+            public StackElement Next { get; set; }
         }
 
-        private StackElement head;
+        private StackElement head = null;
 
+        /// <summary>
+        /// Конструктор, создающий пустой стек.
+        /// </summary>
         public StackList()
         {
-            this.head = null;
+            
         }
 
-        public StackList(int value)
+        /// <summary>
+        /// Кладем элемет в стек.
+        /// </summary>
+        public override void Push(int element)
         {
             StackElement newElement = new StackElement();
-            this.head = newElement;
-            newElement.next = null;
-            newElement.value = value;
+            newElement.Value = element;
+            newElement.Next = head;
+            head = newElement;
         }
 
-        public override void Push(int value)
-        {
-            StackElement newElement = new StackElement();
-            newElement.value = value;
-            newElement.next = this.head;
-            this.head = newElement;
-        }
-
+        /// <summary>
+        /// Извлекаем элемент из стека.
+        /// </summary>
         public override int Pop()
         {
-            if (this.IsEmpty())
+            if (IsEmpty())
             {
                 Console.WriteLine("Stack is empty!");
                 return -9999;
             }
-            int result = this.head.value;
-            this.head = this.head.next;
+            int result = head.Value;
+            this.head = head.Next;
             return result;
         }
 
+        /// <summary>
+        /// Проверяем, пуст ли стек. 
+        /// </summary>
         public override bool IsEmpty()
         {
-            return this.head == null;
+            return head == null;
         }
     }
+        
 }

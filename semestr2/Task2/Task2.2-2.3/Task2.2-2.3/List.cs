@@ -2,111 +2,134 @@
 
 namespace Task2._2_2._3
 {
+    /// <summary>
+    /// Класс список
+    /// </summary>
     public class List
     {
-        private int length;
+        private int length = 0;
 
+        /// <summary>
+        /// Элемент списка.
+        /// </summary>
         private class ListElement
         {
-            public ListElement next;
-            public ListElement previous;
-            public string value;
+            public ListElement Next { get; set; }
+            public ListElement Previous { get; set; }
+            public string Value{ get; set; }
         }
 
-        private ListElement head;
-        private ListElement tail;
+        private ListElement head = null;
+        private ListElement tail = null;
 
+        /// <summary>
+        /// Конструктор, создающий пустой список.
+        /// </summary>
         public List()
         {
-            this.head = null;
-            this.tail = null;
-            this.length = 0;
+         
         }
 
-        public List(ref string element)
+        /// <summary>
+        /// Конструктор, создающий список с одним элементом
+        /// </summary>
+        public List(string element)
         {
-            this.Add(ref element);
+            Add(element);
         }
 
+        /// <summary>
+        /// Возвращает длину списка
+        /// </summary>
         public int Length()
         {
-            return this.length;
+            return length;
         }
 
+        /// <summary>
+        /// Проверяем, пуст ли список.
+        /// </summary>
         public bool IsEmpty()
         {
-            return this.head == null;
+            return head == null;
         }
 
-        public void Add(ref string element)
+        /// <summary>
+        /// Добавляем элемент в конец списка.
+        /// </summary>
+        public void Add(string element)
         {
             ListElement newElement = new ListElement();
-            newElement.value = element;
-            newElement.next = null;
-            newElement.previous = this.tail;
-            ++this.length;
+            newElement.Value = element;
+            newElement.Next = null;
+            newElement.Previous = tail;
+            ++length;
             if (this.IsEmpty())
             {
-                this.head = newElement;
-                this.tail = newElement;
+                head = newElement;
+                tail = newElement;
                 return;
             }
-            this.tail.next = newElement;
-            this.tail = newElement;
+            tail.Next = newElement;
+            tail = newElement;
         }
 
-        public bool IsContain(ref string element)
+        /// <summary>
+        /// Проверяем, есть ли элемент в списке.
+        /// </summary>
+        public bool Contains(string element)
         {
             ListElement temp = new ListElement();
-            temp = this.head;
+            temp = head;
             while (temp != null)
             {
-                if (element == temp.value)
+                if (element == temp.Value)
                 {
                     return true;
                 }
-                temp = temp.next;
+                temp = temp.Next;
             }
             return false;
         }
 
-        public void Delete(ref string element)
+        /// <summary>
+        /// Удаляем элемент из списка.
+        /// </summary>
+        public void Delete(string element)
         {
             ListElement temp = new ListElement();
-            temp = this.head;
+            temp = head;
             while (temp != null)
             {
-                if (element == temp.value)
+                if (element == temp.Value)
                 {
-                    --this.length;
-                    if (temp.next == null && temp.previous == null)
+                    --length;
+                    if (temp.Next == null && temp.Previous == null)
                     {
-                        this.head = null;
-                        this.tail = null;
+                        head = null;
+                        tail = null;
                     }
                     else
                     {
-                        if (temp.next == null)
+                        if (temp.Next == null)
                         {
-                            temp.previous.next = null;
-                            this.tail = temp.previous;
+                            temp.Previous.Next = null;
+                            tail = temp.Previous;
                             return;
                         }
-                        if (temp.previous == null)
+                        if (temp.Previous == null)
                         {
-                            temp.next.previous = null;
-                            this.head = temp.next;
+                            temp.Next.Previous = null;
+                            head = temp.Next;
                             return;
                         }
-                        temp.previous.next = temp.next;
-                        temp.next.previous = temp.previous;
+                        temp.Previous.Next = temp.Next;
+                        temp.Next.Previous = temp.Previous;
                     }
                     return;
                 }
-                temp = temp.next;
+                temp = temp.Next;
             }
-            Console.WriteLine("Element wasn't found.");
         }
-
     }
 }
