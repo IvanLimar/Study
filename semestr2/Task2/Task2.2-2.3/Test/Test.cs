@@ -111,4 +111,34 @@
             }
         }
     }
+
+    [TestClass]
+    public class UniqueListTest
+    {
+        private UniqueList uniqueList;
+
+        [TestInitialize]
+        public void Init()
+        {
+            uniqueList = new UniqueList();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(AddictionPresentValueException))]
+        public void AddRepeatedValueTest()
+        {
+            const string line = "ololo";
+            uniqueList.Add(line);
+            uniqueList.Add(line);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(DeletingNotPresentValueException))]
+        public void DeleteNotPresentValueTest()
+        {
+            const string line = "ololo";
+            uniqueList.Add(line);
+            uniqueList.Delete("AAA");
+        }
+    }
 }

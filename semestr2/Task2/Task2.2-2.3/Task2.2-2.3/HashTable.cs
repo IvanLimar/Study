@@ -11,20 +11,12 @@ namespace Task2._2_2._3
 
         private List[] lists;
 
-        /// <summary>
-        /// Хеш-функция
-        /// </summary>
-        private int HashFunction(string element)
+        public int Length
         {
-            int result = 0;
-            for (int i = 0; i < element.Length; ++i)
+            get
             {
-                int number = Convert.ToInt32(element[i]);
-                double temp = Math.Pow(number, i) % length;
-                result = result + Convert.ToInt32(temp);
-                
+                return length;
             }
-            return result % length;
         }
 
         /// <summary>
@@ -53,7 +45,7 @@ namespace Task2._2_2._3
         /// </summary>
         public void Add(string element)
         {
-            int index = HashFunction(element);
+            int index = HashFunction.Value(this, element);
             lists[index].Add(element);
         }
 
@@ -62,7 +54,7 @@ namespace Task2._2_2._3
         /// </summary>
         public bool Contains(string element)
         {
-            int index = HashFunction(element);
+            int index = HashFunction.Value(this, element);
             return lists[index].Contains(element);
         }
 
@@ -71,7 +63,7 @@ namespace Task2._2_2._3
         /// </summary>
         public void Delete(string element)
         {
-            int index = HashFunction(element);
+            int index = HashFunction.Value(this, element);
             lists[index].Delete(element);
         }
     }
