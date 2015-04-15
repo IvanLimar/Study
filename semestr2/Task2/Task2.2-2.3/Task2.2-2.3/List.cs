@@ -7,20 +7,20 @@ namespace Task2._2_2._3
     /// </summary>
     public class List
     {
-        private int length = 0;
+        protected int length = 0;
 
         /// <summary>
         /// Элемент списка.
         /// </summary>
-        private class ListElement
+        protected class ListElement
         {
             public ListElement Next { get; set; }
             public ListElement Previous { get; set; }
             public string Value{ get; set; }
         }
 
-        private ListElement head = null;
-        private ListElement tail = null;
+        protected ListElement head = null;
+        protected ListElement tail = null;
 
         /// <summary>
         /// Конструктор, создающий пустой список.
@@ -57,7 +57,7 @@ namespace Task2._2_2._3
         /// <summary>
         /// Добавляем элемент в конец списка.
         /// </summary>
-        public void Add(string element)
+        public virtual void Add(string element)
         {
             ListElement newElement = new ListElement();
             newElement.Value = element;
@@ -130,6 +130,7 @@ namespace Task2._2_2._3
                 }
                 temp = temp.Next;
             }
+            throw new DeletingNotPresentValueException();
         }
     }
 }
