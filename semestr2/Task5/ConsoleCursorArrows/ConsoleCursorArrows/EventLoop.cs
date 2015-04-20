@@ -9,15 +9,17 @@ namespace ConsoleCursorArrows
         public event EventHandler<EventArgs> RightHandler = (sender, args) => {};
         public event EventHandler<EventArgs> LeftHandler = (sender, args) => {};
         public event EventHandler<EventArgs> InstructionHandler = (sender, args) => {};
+        public event EventHandler<EventArgs> ExitHandler = (sender, args) => {};
 
         public void Run()
         {
             InstructionHandler(this, EventArgs.Empty);
-            while(true)
+            while (true)
             {
                 var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Escape)
                 {
+                    ExitHandler(this, EventArgs.Empty);
                     break;
                 }
                 switch (key.Key)

@@ -14,7 +14,8 @@ namespace ConsoleCursorArrows
             eventLoop.RightHandler += cursorMoving.ToRight;
             eventLoop.LeftHandler += cursorMoving.ToLeft;
             eventLoop.InstructionHandler += cursorMoving.Instructions;
-
+            eventLoop.ExitHandler += cursorMoving.Exit;
+            
             eventLoop.Run();
         }
     }
