@@ -18,7 +18,7 @@ namespace ListFunctionTest
         [TestMethod]
         public void MapTest1()
         {
-            List<int> result = ListMethods.Map(list, (value) => value * 0);
+            List<int> result = ListMethods.Map(list, value => value * 0);
             foreach (int value in result)
             {
                 Assert.AreEqual(value, 0);
@@ -28,7 +28,7 @@ namespace ListFunctionTest
         [TestMethod]
         public void MapTest2()
         {
-            List<int> result = ListMethods.Map(list, (value) => value * 2 - 1);
+            List<int> result = ListMethods.Map(list, value => value * 2 - 1);
             for (int i = 0; i < result.Count; ++i)
             {
                 Assert.AreEqual(result[i], list[i] * 2 - 1);
@@ -38,7 +38,7 @@ namespace ListFunctionTest
         [TestMethod]
         public void FilterTest1()
         {
-            List<int> result = ListMethods.Filter(list, (value) => value % 2 == 0);
+            List<int> result = ListMethods.Filter(list, value => value % 2 == 0);
             int firstValue = 96;
             int secondValue = 130;
             int thirdValue = 250;
