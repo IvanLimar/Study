@@ -15,8 +15,7 @@ namespace Task2._4
         /// Создаем стек на массивах.
         /// </summary>
         public StackArray()
-        {
-            
+        {           
         }
 
         /// <summary>
@@ -47,9 +46,8 @@ namespace Task2._4
         {
             if (IsEmpty())
             {
-                return -9999;
+                throw new EmptyStackException("Stack is empty.");
             }
-
             --length;
             int result = array[length];
             return result;

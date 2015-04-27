@@ -12,23 +12,11 @@ namespace Task2._4
         /// </summary>
         private class StackElement
         {
-            private int _value;
-            public int Value
-            {
-                get
-                {
-                    return _value;
-                }
-                set
-                {
-                    _value = value;
-                }
-            }
-
+            public int Value { get; set; }
             public StackElement Next { get; set; }
         }
 
-        private StackElement head = null;
+        private StackElement head;
 
         /// <summary>
         /// Конструктор, создающий пустой стек.
@@ -56,8 +44,7 @@ namespace Task2._4
         {
             if (IsEmpty())
             {
-                Console.WriteLine("Stack is empty!");
-                return -9999;
+                throw new EmptyStackException("Stack is empty!");
             }
             int result = head.Value;
             this.head = head.Next;
