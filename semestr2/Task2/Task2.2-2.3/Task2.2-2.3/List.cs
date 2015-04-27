@@ -1,26 +1,26 @@
 ﻿using System;
 
-namespace Task2._2_2._3
+namespace TaskListHashTable
 {
     /// <summary>
     /// Класс список
     /// </summary>
     public class List
     {
-        protected int length = 0;
+        private int length = 0;
 
         /// <summary>
         /// Элемент списка.
         /// </summary>
-        protected class ListElement
+        private class ListElement
         {
             public ListElement Next { get; set; }
             public ListElement Previous { get; set; }
             public string Value{ get; set; }
         }
 
-        protected ListElement head = null;
-        protected ListElement tail = null;
+        private ListElement head = null;
+        private ListElement tail = null;
 
         /// <summary>
         /// Конструктор, создающий пустой список.
@@ -130,7 +130,7 @@ namespace Task2._2_2._3
                 }
                 temp = temp.Next;
             }
-            throw new DeletingNotPresentValueException();
+            throw new NonExistentValueDeleteException("List doesn't contain element");
         }
     }
 }

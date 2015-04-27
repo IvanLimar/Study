@@ -1,23 +1,17 @@
 ﻿using System;
 
-namespace Task2._2_2._3
+namespace TaskListHashTable
 {
     /// <summary>
-    /// Класс хеш-таблица
+    /// Класс хеш-таблица. Можно добавлять, удалять и проверять на принадлежность хеш-таблице.
     /// </summary>
     public class HashTable
     {
-        private int length;
-
         private List[] lists;
 
-        public int Length
-        {
-            get
-            {
-                return length;
-            }
-        }
+        private Func<string, int> hashFunction;
+
+        public int Length { get; set; }
 
         /// <summary>
         /// Конструктор, создающий хеш-таблицу.
@@ -27,12 +21,16 @@ namespace Task2._2_2._3
         {
             if (length < 0)
             {
-                this.length = 100;
+                Length = 100;
             }
             else
             {
-                this.length = length;
+                Length = length;
             }
+            hashFunction = (string line) =>
+            {
+                return HashFunction.Value(line) % Length;
+            };
             lists = new List[length];
             for (int i = 0; i < length; ++i)
             {
@@ -45,7 +43,7 @@ namespace Task2._2_2._3
         /// </summary>
         public void Add(string element)
         {
-            int index = HashFunction.Value(this, element);
+            int index = hashFunction(element);
             lists[index].Add(element);
         }
 
@@ -54,7 +52,7 @@ namespace Task2._2_2._3
         /// </summary>
         public bool Contains(string element)
         {
-            int index = HashFunction.Value(this, element);
+            int index = hashFunction(element);
             return lists[index].Contains(element);
         }
 
@@ -63,7 +61,7 @@ namespace Task2._2_2._3
         /// </summary>
         public void Delete(string element)
         {
-            int index = HashFunction.Value(this, element);
+            int index = hashFunction(element);
             lists[index].Delete(element);
         }
     }

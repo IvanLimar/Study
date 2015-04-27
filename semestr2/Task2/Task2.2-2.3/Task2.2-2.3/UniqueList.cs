@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Task2._2_2._3
+namespace TaskListHashTable
 {
     /// <summary>
     /// Список без повторяющихся элементов
@@ -28,7 +28,7 @@ namespace Task2._2_2._3
         {
             if (Contains(value))
             {
-                throw new AddictionPresentValueException();
+                throw new RepeatedValueAddExpception("List contains element.");
             }
             base.Add(value);
         }
