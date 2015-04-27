@@ -44,12 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculateTree.cs" />
-    <Compile Include="Expections.cs" />
-    <Compile Include="PrintTree.cs" />
+    <Compile Include="DividingByZeroException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScanLine.cs" />
+    <Compile Include="Symbol.cs" />
     <Compile Include="Tree.cs" />
   </ItemGroup>
   <ItemGroup>

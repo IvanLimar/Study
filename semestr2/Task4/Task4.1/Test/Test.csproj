@@ -50,11 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CalculateTest.cs" />
-    <Compile Include="NodeTest.cs" />
-    <Compile Include="PrintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScanLineTest.cs" />
+    <Compile Include="TreeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Task4.1\Task4.1.csproj">
