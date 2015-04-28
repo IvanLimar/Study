@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DividingByZeroException.cs" />
+    <Compile Include="NodeOperand.cs" />
+    <Compile Include="NodeOperation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Symbol.cs" />
