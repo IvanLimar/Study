@@ -7,14 +7,14 @@ namespace Task2._4Test
     [TestClass]
     public class StackCalculatorTest
     {
-        private StackArray stackArray;
-        private StackList stackList;
+        private StackArray<int> stackArray;
+        private StackList<int> stackList;
 
         [TestInitialize]
         public void Init()
         {
-            stackArray = new StackArray();
-            stackList = new StackList();
+            stackArray = new StackArray<int>();
+            stackList = new StackList<int>();
         }
 
         [ExpectedException(typeof(DividingByZeroException))]

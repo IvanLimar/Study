@@ -7,12 +7,12 @@ namespace Task2._4Test
     [TestClass]
     public class StackListTest
     {
-        private StackList stack;
+        private StackList<int> stack;
 
         [TestInitialize]
         public void Init()
         {
-            stack = new StackList();
+            stack = new StackList<int>();
         }
 
         [ExpectedException(typeof(EmptyStackException))]

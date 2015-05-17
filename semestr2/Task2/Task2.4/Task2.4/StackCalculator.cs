@@ -46,7 +46,7 @@ namespace Task2._4
         /// <summary>
         /// Считаем постфиксное выражение с помощью стека
         /// </summary>
-        public static int Calculate(string postfixExpression, Stack stack)
+        public static int Calculate(string postfixExpression, Stack<int> stack)
         {
             for (int i = 0; i < postfixExpression.Length; ++i)
             {

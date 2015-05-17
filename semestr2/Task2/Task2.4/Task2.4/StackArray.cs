@@ -5,9 +5,9 @@ namespace Task2._4
     /// <summary>
     /// Класс стек, реализованный на массивах
     /// </summary>
-    public class StackArray : Stack
+    public class StackArray<Type> : Stack<Type>
     {
-        private int[] array = new int[100];
+        private Type[] array = new Type[100];
 
         private int length = 0;
 
@@ -29,7 +29,7 @@ namespace Task2._4
         /// <summary>
         /// Вставляем число в стек
         /// </summary>
-        public override void Push(int value)
+        public override void Push(Type value)
         {
             if (length == array.Length)
             {
@@ -42,14 +42,14 @@ namespace Task2._4
         /// <summary>
         /// Извлекаем число из стека.
         /// </summary>
-        public override int Pop()
+        public override Type Pop()
         {
             if (IsEmpty())
             {
                 throw new EmptyStackException("Stack is empty.");
             }
             --length;
-            int result = array[length];
+            Type result = array[length];
             return result;
         }
     }
