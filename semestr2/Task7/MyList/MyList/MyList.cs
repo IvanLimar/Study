@@ -7,7 +7,7 @@ namespace MyList
     /// <summary>
     /// Генериковый список со значениями типа Type.
     /// </summary>
-    public class MyList<Type> : IList<Type>
+    public partial class MyList<T> : IList<T>
     {
         public bool IsReadOnly
         {
@@ -23,7 +23,7 @@ namespace MyList
         /// Возвращает или задает элемент списка с номером index.
         /// index > 0, index < Count
         /// </summary>
-        public Type this[int index]
+        public T this[int index]
         {
             get
             {
@@ -60,8 +60,8 @@ namespace MyList
         private class MyListElement
         {
             public MyListElement Previous { get; set; }
-            public MyListElement Next { get; set;}
-            public Type Value { get; set; } 
+            public MyListElement Next { get; set; }
+            public T Value { get; set; } 
         }
 
         public MyList()
@@ -71,7 +71,7 @@ namespace MyList
         /// <summary>
         /// добавление item в конец списка.
         /// </summary>
-        public void Add(Type item)
+        public void Add(T item)
         {
             ++count;
             MyListElement listElement = new MyListElement();
@@ -90,7 +90,7 @@ namespace MyList
         /// <summary>
         /// Вставка item на позицию index.
         /// </summary>
-        public void Insert(int index, Type item)
+        public void Insert(int index, T item)
         {
             if (index < 0 || index > count)
             {
@@ -124,7 +124,7 @@ namespace MyList
         /// Возвращает позицию, на которой находится item.
         /// Если item отсутствует, возввращает -1.
         /// </summary>
-        public int IndexOf(Type item)
+        public int IndexOf(T item)
         {
             for (int i = 0; i < Count; ++i)
             {
@@ -139,7 +139,7 @@ namespace MyList
         /// <summary>
         /// Проверяет. есть ли item в списке.
         /// </summary>
-        public bool Contains(Type item)
+        public bool Contains(T item)
         {
             return IndexOf(item) >= 0;
         }
@@ -184,7 +184,7 @@ namespace MyList
         /// <summary>
         /// Удаляет item, если он есть, и возвращает true, в противном случае - false.
         /// </summary>
-        public bool Remove(Type item)
+        public bool Remove(T item)
         {
             int index = IndexOf(item);
             bool result = index > -1;
@@ -200,17 +200,15 @@ namespace MyList
         /// </summary>
         public void Clear()
         {
-            int length = count;
-            for (int i = 0; i < length; ++i)
-            {
-                RemoveAt(0);
-            }
+            count = 0;
+            head = null;
+            tail = null;
         }
 
         /// <summary>
         /// В массив array c позиции startArrayIndex вставляет элементы списока.
         /// </summary>
-        public void CopyTo(Type[] array, int startArrayIndex)
+        public void CopyTo(T[] array, int startArrayIndex)
         {
             if (array == null)
             {
@@ -230,9 +228,9 @@ namespace MyList
             }
         }
 
-        IEnumerator<Type> IEnumerable<Type>.GetEnumerator()
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            return GetEnumerator() as IEnumerator<Type>;
+            return GetEnumerator() as IEnumerator<T>;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -240,9 +238,9 @@ namespace MyList
             return GetEnumerator() as IEnumerator;
         }
 
-        public MyListEnumerator<Type> GetEnumerator()
+        public MyListEnumerator GetEnumerator()
         {
-            return new MyListEnumerator<Type>(this);
+            return new MyListEnumerator(this);
         }
     }
 }

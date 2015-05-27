@@ -1,39 +1,53 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace MyList
 {
-    /// <summary>
-    /// Энумератор, позволяющий ходить по MyList<Type> циклом foreach
-    /// </summary>
-    public class MyListEnumerator<Type> : IEnumerator
+    public partial class MyList<T> : IList<T>
     {
-        private MyList<Type> list;
-        private int index = -1;
-
-        public MyListEnumerator(MyList<Type> list)
+        /// <summary>
+        /// Энумератор, позволяющий ходить по MyList<Type> циклом foreach
+        /// </summary>
+        public class MyListEnumerator : IEnumerator
         {
-            this.list = list;
-        }
+            private MyList<T> list;
+            private int index = -1;
+            private MyListElement current;
 
-        object IEnumerator.Current
-        {
-            get { return Current; }
-        }
+            public MyListEnumerator(MyList<T> list)
+            {
+                this.list = list;
+            }
 
-        public Type Current
-        {
-            get { return list[index]; }
-        }
+            object IEnumerator.Current
+            {
+                get { return Current; }
+            }
 
-        public void Reset()
-        {
-            index = -1;
-        }
+            public T Current
+            {
+                get { return current.Value; }
+            }
 
-        public bool MoveNext()
-        {
-            ++index;
-            return index < list.Count;
+            public void Reset()
+            {
+                index = -1;
+                current = null;
+            }
+
+            public bool MoveNext()
+            {
+                if (index == -1)
+                {
+                    current = list.head;
+                }
+                else
+                {
+                    current = current.Next;
+                }
+                ++index;
+                return index < list.Count;
+            }
         }
     }
 }
