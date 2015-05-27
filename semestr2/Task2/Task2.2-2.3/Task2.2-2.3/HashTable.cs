@@ -11,6 +11,11 @@ namespace TaskListHashTable
 
         private Func<string, int> hashFunction;
 
+        public Func<string, int> Function
+        {
+            get { return hashFunction; }
+        }
+
         public int Length { get; set; }
 
         /// <summary>
@@ -36,6 +41,17 @@ namespace TaskListHashTable
             {
                 lists[i] = new List();
             }
+        }
+
+        /// <summary>
+        /// Смена хеш-функции.
+        /// </summary>
+        public void ChangeHash(Func<string, int> newHashFunction)
+        {
+            hashFunction = (string line) =>
+            {
+                return newHashFunction(line) % Length;
+            };
         }
 
         /// <summary>
