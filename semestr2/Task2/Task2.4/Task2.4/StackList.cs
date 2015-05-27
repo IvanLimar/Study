@@ -5,30 +5,18 @@ namespace Task2._4
     /// <summary>
     ///  Класс стек, реализованный на списках.
     /// </summary>
-    public class StackList : Stack
+    public class StackList<Type> : Stack<Type>
     {
         /// <summary>
         /// Элемент стека.
         /// </summary>
         private class StackElement
         {
-            private int _value;
-            public int Value
-            {
-                get
-                {
-                    return _value;
-                }
-                set
-                {
-                    _value = value;
-                }
-            }
-
+            public Type Value { get; set; }
             public StackElement Next { get; set; }
         }
 
-        private StackElement head = null;
+        private StackElement head;
 
         /// <summary>
         /// Конструктор, создающий пустой стек.
@@ -41,7 +29,7 @@ namespace Task2._4
         /// <summary>
         /// Кладем элемет в стек.
         /// </summary>
-        public override void Push(int element)
+        public override void Push(Type element)
         {
             StackElement newElement = new StackElement();
             newElement.Value = element;
@@ -52,14 +40,13 @@ namespace Task2._4
         /// <summary>
         /// Извлекаем элемент из стека.
         /// </summary>
-        public override int Pop()
+        public override Type Pop()
         {
             if (IsEmpty())
             {
-                Console.WriteLine("Stack is empty!");
-                return -9999;
+                throw new EmptyStackException("Stack is empty!");
             }
-            int result = head.Value;
+            Type result = head.Value;
             this.head = head.Next;
             return result;
         }
