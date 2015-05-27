@@ -1,95 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Task4_1
+﻿namespace Task4_1
 {
-    public partial class Tree
+    /// <summary>
+    /// Операция. Может считаться и печататься
+    /// </summary>
+    public class NodeOperation : Node
     {
-        /// <summary>
-        /// Операция. Может считаться и печататься
-        /// </summary>
-        private class NodeOperation : Node
+        private string operation;
+        private Node leftSon;
+        private Node rightSon;
+
+        public NodeOperation(string[] values, ref int currentIndex)
         {
-            private string operation;
-            private Node leftSon;
-            private Node rightSon;
-
-            public NodeOperation(string[] values, ref int currentIndex)
+            operation = values[currentIndex++];
+            for (int i = 0; i < 2; ++i)
             {
-                operation = values[currentIndex++];
-                for (int i = 0; i < 2; ++i)
+                Node temp;
+                while (Symbol.IsBracket(values[currentIndex]))
                 {
-                    Node temp;
-                    while (Symbol.IsBracket(values[currentIndex]))
-                    {
-                        ++currentIndex;
-                    }
-                    if (Symbol.IsOperation(values[currentIndex]))
-                    {
-                        temp = new NodeOperation(values, ref currentIndex);
-                    }
-                    else
-                    {
-                        temp = new NodeOperand(values, ref currentIndex);
-                    }
-                    if (i == 0)
-                    {
-                        leftSon = temp;
-                    }
-                    else
-                    {
-                        rightSon = temp;
-                    }
+                    ++currentIndex;
+                }
+                if (Symbol.IsOperation(values[currentIndex]))
+                {
+                    temp = new NodeOperation(values, ref currentIndex);
+                }
+                else
+                {
+                    temp = new NodeOperand(values, ref currentIndex);
+                }
+                if (i == 0)
+                {
+                    leftSon = temp;
+                }
+                else
+                {
+                    rightSon = temp;
                 }
             }
+        }
 
-            public override string Print()
-            {
-                string result = "";
-                result = "( " + operation + " ";
-                result = result + leftSon.Print();
-                result = result + rightSon.Print();
-                result = result + ") ";
-                return result;
-            }
+        public override string Print()
+        {
+            string result = "";
+            result = "( " + operation + " ";
+            result = result + leftSon.Print();
+            result = result + rightSon.Print();
+            result = result + ") ";
+            return result;
+        }
 
-            public override int Calculate()
+        public override int Calculate()
+        {
+            int firstOperand = leftSon.Calculate();
+            int secondOperand = rightSon.Calculate();
+            int result = 0;
+            switch (operation)
             {
-                int firstOperand = leftSon.Calculate();
-                int secondOperand = rightSon.Calculate();
-                int result = 0;
-                switch (operation)
-                {
-                    case "+":
+                case "+":
+                    {
+                        result = firstOperand + secondOperand;
+                        break;
+                    }
+                case "-":
+                    {
+                        result = firstOperand - secondOperand;
+                        break;
+                    }
+                case "*":
+                    {
+                        result = firstOperand * secondOperand;
+                        break;
+                    }
+                case "/":
+                    {
+                        if (secondOperand == 0)
                         {
-                            result = firstOperand + secondOperand;
-                            break;
+                            throw new DividingByZeroException("Dividing by zero.");
                         }
-                    case "-":
-                        {
-                            result = firstOperand - secondOperand;
-                            break;
-                        }
-                    case "*":
-                        {
-                            result = firstOperand * secondOperand;
-                            break;
-                        }
-                    case "/":
-                        {
-                            if (secondOperand == 0)
-                            {
-                                throw new DividingByZeroException("Dividing by zero.");
-                            }
-                            result = firstOperand / secondOperand;
-                            break;
-                        }
-                }
-                return result;
+                        result = firstOperand / secondOperand;
+                        break;
+                    }
             }
+            return result;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Task4_1;
+﻿using Task4_1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test
@@ -14,7 +13,7 @@ namespace Test
         [TestInitialize]
         public void Init()
         {
-            test1 = new Tree("( + 2 ( * 5 3 ) )");
+            test1 = new Tree("( + 20 ( * 5 3 ) )");
             test2 = new Tree("( * ( + 2 3 ) ( / 6 2 ) )");
             test3 = new Tree("( / 2 0 )");
         }
@@ -22,7 +21,7 @@ namespace Test
         [TestMethod]
         public void LineTest()
         {
-            Assert.AreEqual(test1.Line(), "( + 2 ( * 5 3 ) ) ");
+            Assert.AreEqual(test1.Line(), "( + 20 ( * 5 3 ) ) ");
             Assert.AreEqual(test2.Line(), "( * ( + 2 3 ) ( / 6 2 ) ) ");
             Assert.AreEqual(test3.Line(), "( / 2 0 ) ");
         }
@@ -37,7 +36,7 @@ namespace Test
         [TestMethod]
         public void CalculateTest()
         {
-            Assert.AreEqual(test1.Calculate(), 17);
+            Assert.AreEqual(test1.Calculate(), 35);
             Assert.AreEqual(test2.Calculate(), 15);
         }
     }

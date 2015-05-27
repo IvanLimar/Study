@@ -1,23 +1,11 @@
-﻿using System;
-
-namespace Task4_1
+﻿namespace Task4_1
 {
     /// <summary>
     /// Дерево разбора арифметического выпажения. Может печататься и считаться
     /// </summary>
-    public partial class Tree
+    public class Tree
     {
         private Node root;
-
-        /// <summary>
-        /// Класс узел. Может печататься и считаться.
-        /// </summary>
-        private abstract class Node
-        {
-            public abstract string Print();
-
-            public abstract int Calculate();
-        }
 
         /// <summary>
         /// Строит дерево обхода арифметического выражения.
