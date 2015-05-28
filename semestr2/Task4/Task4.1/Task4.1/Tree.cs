@@ -1,54 +1,43 @@
-﻿using System;
-
-namespace Task4_1
+﻿namespace Task4_1
 {
     /// <summary>
-    /// Класс дерево.
+    /// Дерево разбора арифметического выпажения. Может печататься и считаться
     /// </summary>
     public class Tree
     {
-        public Node Root { get; set; }
+        private Node root;
 
         /// <summary>
-        /// Класс узел.
+        /// Строит дерево обхода арифметического выражения.
+        /// Работает только с корректными expression.
         /// </summary>
-        public class Node
+        public Tree(string expression)
         {
-            public Node LeftSon { get; set; }
-            public Node RightSon { get; set; }
-            public string Value { get; set; }
-
-            public Node()
+            string[] values = expression.Split(' ');
+            int currentIndex = 0;
+            while (Symbol.IsBracket(values[currentIndex]))
             {
-                LeftSon = null;
-                RightSon = null;
+                ++currentIndex;
             }
-
-            /// <summary>
-            /// В данный узел заносим value
-            /// </summary>
-            public void AddValue(string value)
+            if (Symbol.IsOperation(values[currentIndex]))
             {
-                this.Value = value;
+                root = new NodeOperation(values, ref currentIndex);
             }
-
-            /// <summary>
-            /// Если узел не имеет потомков, создаем сыновей.
-            /// </summary>
-            public void CreateSons()
+            else
             {
-                if (this.LeftSon != null || this.RightSon != null)
-                {
-                    return;
-                }
-                this.LeftSon = new Node();
-                this.RightSon = new Node();
-            }      
+                root = new NodeOperand(values, ref currentIndex);
+            }
         }
 
-        public Tree()
+
+        public int Calculate()
         {
-            Root = new Node();
+            return root.Calculate();
+        }
+
+        public string Line()
+        {
+            return root.Print();
         }
     }
 }
