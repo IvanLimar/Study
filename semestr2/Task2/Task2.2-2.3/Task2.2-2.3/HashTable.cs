@@ -52,6 +52,39 @@ namespace TaskListHashTable
             {
                 return newHashFunction(line) % Length;
             };
+            Rebuild();
+        }
+
+        /// <summary>
+        /// Перестройка хеш-таблицы после смены хеш-функции.
+        /// </summary>
+        private void Rebuild()
+        {
+            List temp = new List();
+            for (int i = 0; i < Length; ++i)
+            {
+                int j = 0;
+                while (j < lists[i].Length())
+                {
+                    temp.Add(lists[i].GetValue(j++));
+                }
+            }
+            Clear();
+            for (int i = 0; i < temp.Length(); ++i)
+            {
+                Add(temp.GetValue(i));
+            }
+        }
+
+        /// <summary>
+        /// Удаляем все содержимое хеш-таблицы
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = 0; i < Length; ++i)
+            {
+                lists[i] = new List();
+            }
         }
 
         /// <summary>
