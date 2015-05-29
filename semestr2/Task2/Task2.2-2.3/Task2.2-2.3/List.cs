@@ -26,8 +26,7 @@ namespace TaskListHashTable
         /// Конструктор, создающий пустой список.
         /// </summary>
         public List()
-        {
-         
+        {        
         }
 
         /// <summary>
@@ -90,6 +89,20 @@ namespace TaskListHashTable
                 temp = temp.Next;
             }
             return false;
+        }
+
+        public string GetValue(int position)
+        {
+            if (position < 0 || position >= length)
+            {
+                return "";
+            }
+            ListElement temp = head;
+            for (int i = 0; i < position; ++i)
+            {
+                temp = temp.Next;
+            }
+            return temp.Value;
         }
 
         /// <summary>

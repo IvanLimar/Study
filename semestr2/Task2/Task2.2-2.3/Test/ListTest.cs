@@ -79,5 +79,18 @@ namespace Test
             list.Delete("-1");
             list.Delete("ololol");
         }
+
+        [TestMethod]
+        public void GetValueTest()
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                list.Add(i.ToString());
+            }
+            for (int i = 0; i < 10; ++i)
+            {
+                Assert.AreEqual(i.ToString(), list.GetValue(i));
+            }
+        }
     }
 }

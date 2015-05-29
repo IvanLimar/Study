@@ -31,7 +31,6 @@ namespace Test
         [TestMethod]
         public void AddDeleteContainsTest()
         {
-            HashTable hashTable = new HashTable(100);
             for (int i = 0; i < 1000; ++i)
             {
                 string number = i.ToString();
@@ -43,6 +42,30 @@ namespace Test
                 string number = i.ToString();
                 hashTable.Delete(number);
                 Assert.IsFalse(hashTable.Contains(number));
+            }
+        }
+
+        [TestMethod]
+        public void ChangeHashTest()
+        {
+            Func<string, int> newHash = (string line) => { return line.Length; };
+            hashTable.ChangeHash(newHash);
+            Assert.AreEqual(hashTable.Function("olololo"), newHash("abababb"));
+        }
+
+        [TestMethod]
+        public void RebuildTest()
+        {
+            for (int i = 0; i < 1000; ++i)
+            {
+                string number = i.ToString();
+                hashTable.Add(number);
+            }
+            Func<string, int> newHash = (string line) => { return line.Length; };
+            hashTable.ChangeHash(newHash);
+            for (int i = 0; i < 1000; ++i)
+            {
+                Assert.IsTrue(hashTable.Contains(i.ToString()));
             }
         }
     }
