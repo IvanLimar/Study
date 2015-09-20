@@ -1,38 +1,37 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
+using System;
 
 namespace BinarySearchTree
 {
     /// <summary>
-    /// Represents binary search tree with integer numbers.
+    /// Represents binary search tree with T values.
     /// </summary>
-    public class BinarySearchTree : IEnumerable
+    public class BinarySearchTree<T> : IEnumerable where T : IComparable
     {
-        private Node root = null;
-
+        private Node root;
         /// <summary>
         /// Binary search tree's node.
         /// </summary>
         private class Node
         {
-            public int Value { get; set; }
+            public T Value { get; set; }
             public Node LeftSon { get; set; }
             public Node RightSon { get; set; }
 
-            public Node(int value)
+            public Node(T value)
             {
-                LeftSon = null;
-                RightSon = null;
                 Value = value;
             }
 
-            public void AddValue(int value)
+            public void AddValue(T value)
             {
-                if (Value == value)
+                int temp = value.CompareTo(Value);
+                if (temp == 0)
                 {
                     return;
                 }
-                if (value > Value)
+                if (temp > 0)
                 {
                     if (RightSon == null)
                     {
@@ -59,25 +58,9 @@ namespace BinarySearchTree
         }
 
         /// <summary>
-        /// Adds values to nodeList, when enumerator creates.
-        /// </summary>
-        private void NodeList(ref List<int> nodeList, Node currentNode)
-        {
-            nodeList.Add(currentNode.Value);
-            if (currentNode.LeftSon != null)
-            {
-                NodeList(ref nodeList, currentNode.LeftSon);
-            }
-            if (currentNode.RightSon != null)
-            {
-                NodeList(ref nodeList, currentNode.RightSon);
-            }
-        }
-
-        /// <summary>
         /// Adds a value to binary search tree.
         /// </summary>
-        public void Add(int value)
+        public void Add(T value)
         {
             if (root == null)
             {
@@ -87,14 +70,9 @@ namespace BinarySearchTree
             root.AddValue(value);
         }
 
-        private Enumerator GetEnumerator()
-        {
-            return new Enumerator(this);
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator) GetEnumerator();
+            return (IEnumerator) new Enumerator(this);
         }
 
         /// <summary>
@@ -102,14 +80,30 @@ namespace BinarySearchTree
         /// </summary>
         private class Enumerator : IEnumerator
         {
-            private List<int> nodeList = new List<int>();
+            private List<T> nodeList = new List<T>();
             private int index = -1;
 
-            public Enumerator(BinarySearchTree tree)
+            /// <summary>
+            /// Adds values to nodeList, when enumerator creates.
+            /// </summary>
+            private void NodeList(List<T> nodeList, Node currentNode)
+            {
+                nodeList.Add(currentNode.Value);
+                if (currentNode.LeftSon != null)
+                {
+                    NodeList(nodeList, currentNode.LeftSon);
+                }
+                if (currentNode.RightSon != null)
+                {
+                    NodeList(nodeList, currentNode.RightSon);
+                }
+            }
+
+            public Enumerator(BinarySearchTree<T> tree)
             {
                 if (tree.root != null)
                 {
-                    tree.NodeList(ref nodeList, tree.root);
+                    NodeList(nodeList, tree.root);
                 }             
             }
 
@@ -124,7 +118,7 @@ namespace BinarySearchTree
                 index = -1;
             }
 
-            public int Current
+            public T Current
             {
                 get
                 {

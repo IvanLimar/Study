@@ -8,13 +8,13 @@ namespace BinarySearchTreeTest
     [TestClass]
     public class BinarySearchTreeTest
     {
-        private BinarySearchTree tree;
+        private BinarySearchTree<int> tree;
         private List<int> values;
 
         [TestInitialize]
         public void TestInit()
         {
-            tree = new BinarySearchTree();
+            tree = new BinarySearchTree<int>();
             values = new List<int>();
         }
 
