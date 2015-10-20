@@ -7,10 +7,9 @@ namespace NetworkModel
     /// </summary>
     public class Computer
     {
-        private OperatingSystems operatingSytem;
-        private Func<OperatingSystems, double> probabilityFunction;
+        readonly private OperatingSystems operatingSytem;
+        readonly private Random random;
         private bool isInfected;
-        private Random random;
 
         public OperatingSystems OperatingSystem
         {
@@ -31,10 +30,9 @@ namespace NetworkModel
             }
         }
 
-        public Computer(OperatingSystems operatingSystem, Func<OperatingSystems, double> probabilityFunction, bool isInfected)
+        public Computer(OperatingSystems operatingSystem, bool isInfected)
         {
             this.operatingSytem = operatingSystem;
-            ChangeProbalilityFunction(probabilityFunction);
             this.isInfected = isInfected;
             random = new Random();
         }
@@ -42,30 +40,11 @@ namespace NetworkModel
         /// <summary>
         /// Tryes to infect computer.
         /// </summary>
-        public void TryInfect()
+        public void TryInfect(Func<OperatingSystems, double> probabilityFunction)
         {
             double temp = random.NextDouble();
             isInfected = temp < probabilityFunction(operatingSytem);
         }
 
-        /// <summary>
-        /// Changes the function, which inluences to probability of infection.
-        /// </summary>
-        public void ChangeProbalilityFunction(Func<OperatingSystems, double> newFunction)
-        {
-            this.probabilityFunction = (x) =>
-            {
-                double temp = newFunction(operatingSytem);
-                if (temp == 1)
-                {
-                    return 1;
-                }
-                if (temp == 0)
-                {
-                    return 0;
-                }
-                return temp - Math.Truncate(temp);
-            };
-        }
     }
 }

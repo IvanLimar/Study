@@ -1,4 +1,9 @@
 ﻿namespace NetworkModel
 {
-    public enum OperatingSystems { Windows, Lunix, Mac }
+    public enum OperatingSystems
+    { 
+        Windows,
+        Lunix, 
+        Mac 
+    }
 }

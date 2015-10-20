@@ -9,8 +9,9 @@ namespace NetworkModel
     public class Network
     {
         private List<Computer> computers;
-        private bool[,] network;
         private List<int> infectedComputers;
+        private Func<OperatingSystems, double> probabilityFunction;
+        readonly private bool[,] network;
 
         /// <summary>
         /// Gets numbers of infected computers.
@@ -23,14 +24,16 @@ namespace NetworkModel
             }
         }
 
-        public Network(bool[,] network, List<Computer> computers)
+        public Network(bool[,] network, List<Computer> computers, Func<OperatingSystems, double> probabilityFunction)
         {
             this.network = network;
             this.computers = computers;
+            this.probabilityFunction = probabilityFunction;
             infectedComputers = new List<int>();
-            for (int i = 0; i < computers.Count; ++i)
+            const int zero = 0;
+            for (int i = zero; i < computers.Count; ++i)
             {
-                UpdateInfectedList(i);
+                UpdateList(ref infectedComputers, i);
             }
         }
 
@@ -39,27 +42,30 @@ namespace NetworkModel
         /// </summary>
         public void MakeTurn()
         {
-            for (int i = 0; i < computers.Count; ++i)
+            List<int> infectedComputersAtThisTurn = new List<int>();
+            const int zero = 0;
+            for (int i = zero; i < computers.Count; ++i)
             {
-                if (computers[i].IsInfected)
+                if (computers[i].IsInfected && !infectedComputersAtThisTurn.Contains(i))
                 {
-                    for (int j = 0; j < computers.Count; ++j)
+                    for (int j = zero; j < computers.Count; ++j)
                     {
-                        if (i != j && network[i, j])
+                        if (i != j && network[i, j] && !computers[j].IsInfected)
                         {
-                            computers[j].TryInfect();
-                            UpdateInfectedList(j);
+                            computers[j].TryInfect(probabilityFunction);
+                            UpdateList(ref infectedComputers, j);
+                            UpdateList(ref infectedComputersAtThisTurn, j);
                         }
                     }
                 }               
             }
         }
 
-        private void UpdateInfectedList(int index)
+        private void UpdateList(ref List<int> list ,int index)
         {
-            if (computers[index].IsInfected && !infectedComputers.Contains(index))
+            if (computers[index].IsInfected && !list.Contains(index))
             {
-                infectedComputers.Add(index);
+                list.Add(index);
             }
         }
 
