@@ -1,23 +1,26 @@
 ﻿module Functions
 
 let multiplyDigits number = 
-    let rec makeList number accumulator =
+    let rec makeDigitList number accumulator =
         match number with
-            | negative when negative < 0 -> makeList -number accumulator
-            | positive when positive > 0 -> makeList (number / 10) (number % 10 :: accumulator)
+            | negative when negative < 0 -> makeDigitList -number accumulator
+            | positive when positive > 0 -> makeDigitList (number / 10) (number % 10 :: accumulator)
             | _ -> accumulator
-    List.fold (*) 1 (makeList number List.Empty)
+    List.fold (*) 1 (makeDigitList number List.Empty)
 
-let findFirstPosition ls number =
-    let equal x y = x = y
-    List.find (equal number) ls
+let findFirstPosition (ls : list<'a>) number =
+    let rec loop ls number accumulator currentElement =
+        match (ls, currentElement) with
+            | (head :: tail, notNumber) when notNumber <> number -> if tail.IsEmpty then -1 else loop tail number (accumulator + 1) tail.Head
+            | (head :: tail, number) -> accumulator
+            | ([], _) -> -1
+    if ls.IsEmpty then -1 else loop ls number 0 ls.Head
 
 let isPalindrome (line : string) =
     let rec loop ls (line : string) accumulator =
-        let equal x y = x = y 
         match (ls, accumulator) with
-            | (head :: tail, true) -> loop tail line (equal line.[head] line.[line.Length - 1 - head])
-            | (head::tail, false) -> accumulator
+            | (head :: tail, true) -> loop tail line ((=) line.[head] line.[line.Length - 1 - head])
+            | (head :: tail, false) -> accumulator
             | ([], _) -> accumulator
     loop [0..(line.Length - 1) / 2] line true
 
