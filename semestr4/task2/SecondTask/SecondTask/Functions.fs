@@ -16,13 +16,21 @@ let findFirstPosition (ls : list<'a>) number =
             | ([], _) -> -1
     if ls.IsEmpty then -1 else loop ls number 0 ls.Head
 
-let isPalindrome (line : string) =
-    let rec loop ls (line : string) accumulator =
-        match (ls, accumulator) with
-            | (head :: tail, true) -> loop tail line ((=) line.[head] line.[line.Length - 1 - head])
-            | (head :: tail, false) -> accumulator
-            | ([], _) -> accumulator
-    loop [0..(line.Length - 1) / 2] line true
+let isPalindrome line =
+    let ls = [for i in line -> i]
+    let reverseList ls =
+        let rec loop ls accumulator =
+            match ls with
+                | head :: tail -> loop tail (head :: accumulator)
+                | [] -> accumulator
+        loop ls List.Empty
+    let rec loop ls reverseLs lsLength i accumulator =
+        match (ls, reverseLs, i, accumulator) with
+            | (head :: tail, reverseHead :: reverseTail, normal, true) when normal >= 0 && normal <= (lsLength - 1) / 2 -> loop tail reverseTail lsLength (i + 1) ((=) head reverseHead)
+            | (head :: tail, reverseHead :: reverseTail, notNormal, _) when notNormal > (lsLength - 1) / 2 -> accumulator
+            | (head :: tail, reverseHead :: reverseTail, _, false) -> accumulator
+            | ([], [], _, _) -> accumulator
+    loop ls (reverseList ls) ls.Length 0 true
 
 let areDifferent ls =
     let sortedLs = List.sort ls
@@ -32,4 +40,4 @@ let areDifferent ls =
             | (head :: tail, true) -> loop tail (notEqual head previous) head
             | (head :: tail, false) -> accumulator
             | ([], _) -> accumulator
-    loop sortedLs.Tail true sortedLs.Head
+    if sortedLs.IsEmpty then true else loop sortedLs.Tail true sortedLs.Head
