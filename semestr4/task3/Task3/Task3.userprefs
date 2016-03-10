@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Task3/task3.fs">
     <Files>
-      <File FileName="Task3/task3.fs" Line="60" Column="33" />
+      <File FileName="Task3/task3.fs" Line="43" Column="60" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
