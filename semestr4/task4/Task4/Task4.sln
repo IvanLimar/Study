@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{4925A630-B079-445d-BCD4-3A9C94FE9307}") = "Task4", "Task4.fsproj", "{D29692C1-3573-477E-974B-7054193A16D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D29692C1-3573-477E-974B-7054193A16D4}.Debug|x86.ActiveCfg = Debug|x86
+		{D29692C1-3573-477E-974B-7054193A16D4}.Debug|x86.Build.0 = Debug|x86
+		{D29692C1-3573-477E-974B-7054193A16D4}.Release|x86.ActiveCfg = Release|x86
+		{D29692C1-3573-477E-974B-7054193A16D4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Task4.fsproj
+	EndGlobalSection
+EndGlobal
