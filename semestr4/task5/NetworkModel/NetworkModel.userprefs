@@ -1,0 +1,31 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NetworkModel/NetworkModel.fs">
+    <Files>
+      <File FileName="NetworkModel/ComputerModel.fs" Line="1" Column="21" />
+      <File FileName="NetworkModel/NetworkModel.fs" Line="22" Column="138" />
+      <File FileName="../../../semestr3/NetworkModel/NetworkModel/Computer.cs" Line="48" Column="3" />
+      <File FileName="../../../semestr3/NetworkModel/NetworkModel/Network.cs" Line="54" Column="14" />
+      <File FileName="NetworkModel/AssemblyInfo.fs" Line="1" Column="8" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="NetworkModel" expanded="True">
+            <Node name="NetworkModel.fs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
