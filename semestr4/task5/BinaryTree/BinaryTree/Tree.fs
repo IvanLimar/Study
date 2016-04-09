@@ -76,8 +76,8 @@ type TreeIterator(tree) =
     let linearize tree =
         let rec loop tree accumulator =
             match tree with
-                | Tree(value, left, right) -> let leftList = loop left (value :: accumulator)
-                                              loop right leftList
+                | Tree(value, left, right) -> let rightList = loop right List.Empty
+                                              loop left (value :: rightList)
                                               
                 | Tip(node) -> match node with
                                    | None -> accumulator
