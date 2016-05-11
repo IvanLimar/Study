@@ -5,59 +5,62 @@ open System
 
 let phoneBook =
     let filePath = new FileInfo("book.txt")
-    let rec loop command ls =
+    let rec loop (command : string) ls =
         let rec printList ls =
             match ls with
                 | (head :: tail) -> printfn "%A" head
                                     printList tail
-                | ([]) -> ()
-        match command with
+                | [] -> ()
+        let nextIteration ls =
+            printfn "Enter command:"
+            let newCommand = Console.ReadLine()
+            loop newCommand ls
+            
+        let find case ls =
+            let target = Console.ReadLine()
+            let result case ls =
+                match case with
+                    | "2" -> List.map (fun x -> fst x) (List.filter (fun x -> snd x = target) ls)
+                    | "3" -> List.map (fun x -> snd x) (List.filter (fun x -> fst x = target) ls)
+                    | _ -> List.empty
+            let res = result case ls
+            if res.IsEmpty
+            then printfn "Nothing was found. Try again."
+            else printfn "Result:"
+                 printList res
+        match command.ToLower() with
             | "0" -> ()
-            | "1" -> printfn "Enter 'name' 'phone'"
+            | "1" -> printfn "Enter 'name' 'phone':"
                      let line = Console.ReadLine();
                      let split = line.Split(' ');
                      if split.Length = 2
-                     then printfn "Writing complete. Enter command."
-                          let newCommand = Console.ReadLine();
-                          loop newCommand ((split.[0], split.[1]) :: ls)
+                     then printfn "Writing complete."
+                          nextIteration ((split.[0], split.[1]) :: ls)
                      else printfn "Wrong format! Try again!"
-                          printfn "Enter command."
-                          let newCommand = Console.ReadLine();
-                          loop newCommand ls
+                          nextIteration ls
                           
-            | "2" -> printfn "Enter 'phone'"
-                     let phone = Console.ReadLine();
-                     let persons = List.map (fun x -> fst x) (List.filter (fun x -> snd x = phone) ls)
-                     if persons.IsEmpty 
-                     then printfn "There is nobody with phone numbes %s. Try again." phone 
-                     else printfn "Owners of %s" phone
-                          printList persons
-                     printfn "Enter command."
-                     let newCommand = Console.ReadLine();
-                     loop newCommand ls
+            | "2" -> printfn "Enter 'phone':"
+                     find "2" ls
+                     nextIteration ls
                                           
             | "3" -> printfn "Enter 'name'"
-                     let name = Console.ReadLine();
-                     let phones = List.map (fun x -> snd x) (List.filter (fun x -> fst x = name) ls)
-                     if phones.IsEmpty 
-                     then printfn "There are not any %s's phone numbers. Try again" name 
-                     else printfn "%s's phone numbers" name 
-                          printList phones
-                     printfn "Enter command."
-                     let newCommand = Console.ReadLine();
-                     loop newCommand ls
+                     find "3" ls
+                     nextIteration ls
                      
             | "4" -> let writer = filePath.CreateText();
-                     for i in ls do writer.WriteLine(i.ToString())
+                     let rec write ls =
+                        match ls with
+                            | (head :: tail) -> writer.WriteLine(head.ToString())
+                                                write tail
+                            | [] -> ()
+                     write ls
                      writer.Close()
                      printfn "Writing complete"
-                     printfn "Enter command."
-                     let newCommand = Console.ReadLine();
-                     loop newCommand ls
+                     nextIteration ls
                      
             | "5" -> if not filePath.Exists
-                     then printfn "File doesn't exist. Firstlt, writre data into file."
-                          printfn "Enter comand"
+                     then printfn "File doesn't exist. Firstly, writre data into file."
+                          printfn "Enter command"
                      else let reader = filePath.OpenText()
                           let rec innerLoop ls =
                               if (not reader.EndOfStream)
@@ -69,22 +72,17 @@ let phoneBook =
                               else reader.Close()
                                    ls
                           let newLs = innerLoop ls
-                          printfn "Reading comlete"
-                          printfn "Enter command."
-                          let newCommand = Console.ReadLine();
-                          loop newCommand newLs
+                          printfn "Reading complete"
+                          nextIteration newLs
              
-             | "Help" | "help" | "HELP" -> printfn "0 - exit"
-                                           printfn "1 - add 'name', 'phone'"
-                                           printfn "2 - find persons with entered 'phone'"
-                                           printfn "3 - find phones, which are belonged to 'person'"
-                                           printfn "4 - write into file"
-                                           printfn "5 - read from file"
-                                           printfn "Enter command."
-                                           let newCommand = Console.ReadLine();
-                                           loop newCommand ls
+             | "help" -> printfn "0 - exit"
+                         printfn "1 - add 'name', 'phone'"
+                         printfn "2 - find persons with entered 'phone'"
+                         printfn "3 - find phones, which are belonged to 'person'"
+                         printfn "4 - write into file"
+                         printfn "5 - read from file"
+                         nextIteration ls
              
-             | _ -> printfn "Wrong command. Enter 'help'"
-                    let newCommand = Console.ReadLine();
-                    loop newCommand ls                           
+             | _ -> printfn "Wrong command. Try 'help'"
+                    nextIteration ls                      
     loop "help" []               
