@@ -1,11 +1,26 @@
-open System.Collections.Generic
+module tree
+
 open System
+open System.Collections
+open System.Collections.Generic
+open iterator
 
 type Tree<'a when 'a :> IComparable> =
     | Tree of 'a * Tree<'a> * Tree<'a>
     | Tip of ('a option)
-        with
-            member tree.Add element=
+        with    
+            member private this.linearize =
+                let rec loop tree accumulator =
+                    match tree with
+                        | Tree(value, left, right) -> let rightList = loop right List.Empty
+                                                      loop left ((value :: rightList) @ accumulator)
+                                              
+                        | Tip(node) -> match node with
+                                           | None -> accumulator
+                                           | Some(value) -> value :: accumulator
+                loop this List.empty
+                    
+            member tree.Add element =
                 match tree with
                     | Tree(value, left, right) -> let temp = value.CompareTo(element)
                                                   match temp with
@@ -71,27 +86,9 @@ type Tree<'a when 'a :> IComparable> =
                     | Tip(node) -> match node with
                                        | None -> Tip(None)
                                        | Some(value) -> Tip(None)
-                                       
-type TreeIterator(tree) =
-    let linearize tree =
-        let rec loop tree accumulator =
-            match tree with
-                | Tree(value, left, right) -> let rightList = loop right List.Empty
-                                              (loop left (value :: rightList) @ accumulator
-                                              
-                | Tip(node) -> match node with
-                                   | None -> accumulator
-                                   | Some(value) -> value :: accumulator
-        loop tree List.empty
-        
-    let fullList = linearize tree
-    let mutable currentList = fullList
-    
-    member iter.Current =
-        match currentList with
-            | (head :: tail) -> Some(head)
-            | [] -> None
             
-    member iter.Next = if currentList.IsEmpty then [] else currentList.Tail
-    
-    member iter.Reset = currentList <- fullList
+            interface IEnumerable<'a> with
+                member this.GetEnumerator() =
+                    (new TreeIterator<'a>(this.linearize) :> IEnumerator<'a>)
+                member this.GetEnumerator() =
+                    (new TreeIterator<'a>(this.linearize) :> IEnumerator)
