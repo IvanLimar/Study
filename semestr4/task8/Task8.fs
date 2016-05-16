@@ -7,18 +7,20 @@ let sum =
     
     let result = ref 0
 
-    let threads = [for i in 1..100 -> new Thread(ThreadStart(fun _ -> Thread.CurrentThread.Name <- i.ToString()
-                                                                      let startIndex =  10000 * (System.Int32.Parse(Thread.CurrentThread.Name) - 1)
-                                                                      for j in startIndex..startIndex + 9999 do
-                                                                          Monitor.Enter(result)
-                                                                          try
-                                                                              result := !result + array.[j]
-                                                                          finally
-                                                                              Monitor.Exit(result)))]
+    let threads = [for i in 0..99 -> 
+                       new Thread(ThreadStart(fun _ -> 
+                           let rec loop indexLs acc =
+                               match indexLs with
+                                   | (head::tail) -> loop tail (acc + array.[head])
+                                   | [] -> acc
+                           let startIndex = 10000 * i
+                           let partialSum = loop [startIndex..startIndex + 9999] 0
+                           result := !result + partialSum))]
 
     for i in threads do 
         i.Start()
  
     !result
-    
-printfn "%i" sum
+
+let result = sum
+printfn "%i" result
