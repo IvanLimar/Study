@@ -5,6 +5,8 @@ open System.Collections
 open System.Collections.Generic
 open iterator
 
+exception CompareError of string
+
 type Tree<'a when 'a :> IComparable> =
     | Tree of 'a * Tree<'a> * Tree<'a>
     | Tip of ('a option)
@@ -27,6 +29,7 @@ type Tree<'a when 'a :> IComparable> =
                                                       | negative when negative < 0 -> Tree(value, left, right.Add element)
                                                       | positive when positive > 0 -> Tree(value, left.Add element, right)
                                                       | 0 -> Tree(value, left, right)
+                                                      | _ -> raise (CompareError("Compare error"))
                                   
                     | Tip(value) -> match value with
                                         | None -> Tip(Some(element))
@@ -35,6 +38,7 @@ type Tree<'a when 'a :> IComparable> =
                                                              | negative when negative < 0 -> Tree(value, Tip(None), Tip(Some(element)))
                                                              | positive when positive > 0 -> Tree(value, Tip(Some(element)), Tip(None))
                                                              | 0 -> Tip(Some(value))
+                                                             | _ -> raise (CompareError("Compare error"))
             static member Empty = Tip(None)
             
             member tree.IsEmpty =
@@ -51,6 +55,7 @@ type Tree<'a when 'a :> IComparable> =
                                                       | negative when negative < 0 -> right.Contains element
                                                       | positive when positive > 0 -> left.Contains element
                                                       | 0 -> true
+                                                      | _ -> raise (CompareError("Compare error"))
                                   
                     | Tip(value) -> match value with
                                         | None -> false
@@ -83,6 +88,8 @@ type Tree<'a when 'a :> IComparable> =
                                                              match temp with
                                                                  | None -> left
                                                                  | Some(value) -> Tree(value, left, right.Remove value)
+                                                      | _ -> raise (CompareError("Compare error"))
+                                                      
                     | Tip(node) -> match node with
                                        | None -> Tip(None)
                                        | Some(value) -> Tip(None)
@@ -92,3 +99,41 @@ type Tree<'a when 'a :> IComparable> =
                     (new TreeIterator<'a>(this.linearize) :> IEnumerator<'a>)
                 member this.GetEnumerator() =
                     (new TreeIterator<'a>(this.linearize) :> IEnumerator)
+                    
+let mutable testTree = Tree.Tip(Some(5))
+testTree <- testTree.Add 9
+testTree <- testTree.Add 5
+testTree <- testTree.Add 7
+testTree <- testTree.Add 8
+testTree <- testTree.Add 4
+testTree <- testTree.Add 1
+testTree <- testTree.Add 3
+testTree <- testTree.Add 2
+testTree <- testTree.Add 10
+testTree <- testTree.Add 18
+testTree <- testTree.Add 6
+
+printfn "First traversal:"
+
+for x in testTree do printfn "%i" x  
+
+printfn ""
+printfn "Contains 9: %A" (testTree.Contains 9)
+printfn "Contains 15: %A" (testTree.Contains 15)
+
+printfn "After removing 9, 5, 18:"
+
+testTree <- testTree.Remove 9
+testTree <- testTree.Remove 5
+testTree <- testTree.Remove 18
+
+printfn ""
+printfn "Contains 9: %A" (testTree.Contains 9)
+printfn "Contains 1: %A" (testTree.Contains 1)
+
+
+printfn "Contains 5: %A" (testTree.Contains 5)
+
+printfn "Second traversal:"
+
+for x in testTree do printfn "%i" x
